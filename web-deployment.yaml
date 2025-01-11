@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: synergychat-web
   labels:
     app: synergychat-web
-  name: synergychat-web
 spec:
   replicas: 3
   selector:
@@ -15,6 +15,10 @@ spec:
         app: synergychat-web
     spec:
       containers:
-        - image: bootdotdev/synergychat-web:latest
-          name: synergychat-web
-          resources: {}
+        - name: synergychat-web
+          image: bootdotdev/synergychat-web:latest
+          envFrom:
+            - configMapRef:
+                name: synergychat-web-configmap
+          ports:
+            - containerPort: 8080
